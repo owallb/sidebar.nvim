@@ -67,26 +67,6 @@ end
 
 local function get_symbols(_)
     local current_buf = vim.api.nvim_get_current_buf()
-    local current_pos = vim.lsp.util.make_position_params()
-
-    -- if current buffer is sidebar's own buffer, use previous buffer
-    if current_buf ~= view.View.bufnr then
-        last_buffer = current_buf
-        last_pos = current_pos
-    else
-        current_buf = last_buffer
-        current_pos = last_pos
-    end
-
-    if
-        current_buf == view.View.bufnr
-        or not current_buf
-        or not vim.api.nvim_buf_is_loaded(current_buf)
-        or vim.api.nvim_buf_get_option(current_buf, "buftype") ~= ""
-    then
-        loclist:clear()
-        return
-    end
 
     local clients = nil
     if vim.fn.has("nvim-0.10") == 1 then
@@ -104,6 +84,27 @@ local function get_symbols(_)
     end, clients)
 
     if #clients_filtered == 0 then
+        loclist:clear()
+        return
+    end
+
+    local current_pos = vim.lsp.util.make_position_params(0, clients[1].offset_encoding)
+
+    -- if current buffer is sidebar's own buffer, use previous buffer
+    if current_buf ~= view.View.bufnr then
+        last_buffer = current_buf
+        last_pos = current_pos
+    else
+        current_buf = last_buffer
+        current_pos = last_pos
+    end
+
+    if
+        current_buf == view.View.bufnr
+        or not current_buf
+        or not vim.api.nvim_buf_is_loaded(current_buf)
+        or vim.api.nvim_buf_get_option(current_buf, "buftype") ~= ""
+    then
         loclist:clear()
         return
     end
