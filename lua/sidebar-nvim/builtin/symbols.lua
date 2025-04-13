@@ -1,4 +1,5 @@
 local Loclist = require("sidebar-nvim.components.loclist")
+local Debouncer = require("sidebar-nvim.debouncer")
 local config = require("sidebar-nvim.config")
 local view = require("sidebar-nvim.view")
 
@@ -35,6 +36,8 @@ local kinds = {
     { text = "+ ", hl = "TSOperator" },
     { text = "𝙏 ", hl = "TSParameter" },
 }
+
+local buf_request_debounced = Debouncer:new(vim.lsp.buf_request, 1000)
 
 local function get_range(s)
     return s.range or s.location.range
@@ -109,7 +112,7 @@ local function get_symbols(_)
         return
     end
 
-    vim.lsp.buf_request(current_buf, "textDocument/documentSymbol", current_pos, function(err, method, symbols)
+    buf_request_debounced:call(current_buf, "textDocument/documentSymbol", current_pos, function(err, method, symbols)
         if vim.fn.has("nvim-0.5.1") == 1 or vim.fn.has("nvim-0.8") == 1 then
             symbols = method
         end
