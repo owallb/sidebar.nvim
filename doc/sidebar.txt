@@ -43,7 +43,7 @@ You can install sidebar using any package manager.
 
 With packer.nvim <https://github.com/wbthomason/packer.nvim>
 
->
+>lua
     use 'sidebar-nvim/sidebar.nvim'
 <
 
@@ -53,7 +53,7 @@ With packer.nvim <https://github.com/wbthomason/packer.nvim>
 
 Minimal setup:
 
->
+>lua
     require("sidebar-nvim").setup()
 <
 
@@ -63,7 +63,7 @@ Minimal setup:
 
 The following code block shows the defaults options:
 
->
+>lua
     require("sidebar-nvim").setup({
         disable_default_keybindings = 0,
         bindings = nil,
@@ -93,7 +93,7 @@ The following code block shows the defaults options:
 
 Example:
 
->
+>lua
     require("sidebar-nvim").setup({
         bindings = { ["q"] = function() require("sidebar-nvim").close() end }
     })
@@ -183,7 +183,7 @@ sidebar.nvim accepts user defined sections. The minimal section definition is a
 table with a `draw` function that returns the string ready to render in the
 sidebar and a title. See below the list of available properties
 
->
+>lua
     local section = {
         title = "Section Title",
         icon = "->",
@@ -208,7 +208,7 @@ SECTION.ICON                                            *sidebar-section.icon*
 
 String with the icon or a function that returns a string
 
->
+>lua
     local section = {
         icon = function()
             return "#"
@@ -246,7 +246,7 @@ SECTION.DRAW                                            *sidebar-section.draw*
 The function accepts a single parameter `ctx` containing the current width of
 the sidebar:
 
->
+>lua
     { width = 90 }
 <
 
@@ -263,7 +263,7 @@ The later is used to specify the highlight groups related to the lines returned
 
 Example:
 
->
+>lua
     
     local section = {
         title = "test",
@@ -292,7 +292,7 @@ two properties: `groups` and `links`
 
 Example:
 
->
+>lua
     local section = {
         title = "Custom Section",
         icon = "->",
@@ -326,7 +326,7 @@ will dispatch to the correct section depending on the cursor position.
 
 Example:
 
->
+>lua
     local lines = {"hello", "world"}
     local section = {
         title = "Custom Section",
@@ -356,7 +356,7 @@ Sections using it: |sidebar-git|, |sidebar-diagnostics| and |sidebar-todos|
 
 Example:
 
->
+>lua
     local Loclist = require("sidebar-nvim.components.loclist")
     local loclist = Loclist:new({
         group_icon = { closed = "", opened = "" },
@@ -452,7 +452,7 @@ useful if you want to avoid multiple expensive computations in sequence.
 
 Example:
 
->
+>lua
     local Debouncer = require("sidebar-nvim.debouncer")
     
     local function expensive_computation(n)
@@ -482,7 +482,7 @@ different timezones or offsets.
 NOTE: In order to use timezones you need to install `luatz` from luarocks, like
 the following if using `packer`:
 
->
+>lua
     use {
         "sidebar-nvim/sidebar.nvim",
         rocks = {'luatz'}
@@ -497,7 +497,7 @@ CONFIG ~
 
 Example configuration:
 
->
+>lua
     require("sidebar-nvim").setup({
         ...
         datetime = {
@@ -514,7 +514,7 @@ Example configuration:
 
 Clock options:
 
->
+>lua
     {
         name = "clock name", -- defaults to `tz`
         tz = "America/Los_Angeles", -- only works if using `luatz`, defaults to current timezone
@@ -534,7 +534,7 @@ CONFIG ~
 
 Example configuration:
 
->
+>lua
     require("sidebar-nvim").setup({
         ...
         ["git"] = {
@@ -560,7 +560,7 @@ loaded buffers
 
 CONFIG ~
 
->
+>lua
     require("sidebar-nvim").setup({
         ...
         ["diagnostics"] = {
@@ -584,7 +584,7 @@ Shows the TODOs in source. Provided by RipGrep.
 
 CONFIG ~
 
->
+>lua
     require("sidebar-nvim").setup({
         ...
         todos = {
@@ -649,7 +649,7 @@ see increased cpu usage when this section is enabled.
 
 CONFIG ~
 
->
+>lua
     require("sidebar-nvim").setup({
         ...
         containers = {
@@ -676,7 +676,7 @@ Shows current loaded buffers.
 
 CONFIG ~
 
->
+>lua
     require("sidebar-nvim").setup({
         ...
         buffers = {
@@ -706,7 +706,7 @@ Shows/manage current directory structure.
 
 CONFIG ~
 
->
+>lua
     require("sidebar-nvim").setup({
         ...
         files = {
@@ -740,7 +740,7 @@ Shows lsp symbols for the current buffer.
 
 CONFIG ~
 
->
+>lua
     require("sidebar-nvim").setup({
         ...
         symbols = {
