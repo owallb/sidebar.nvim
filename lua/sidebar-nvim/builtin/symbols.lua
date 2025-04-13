@@ -88,9 +88,19 @@ local function get_symbols(_)
         return
     end
 
-    local clients = vim.lsp.buf_get_clients(current_buf)
+    local clients = nil
+    if vim.fn.has("nvim-0.10") == 1 then
+        clients = vim.lsp.get_clients({ bufnr = current_buf })
+    else
+        clients = vim.lsp.buf_get_clients(current_buf)
+    end
+
     local clients_filtered = vim.tbl_filter(function(client)
-        return client.supports_method("textDocument/documentSymbol")
+        if vim.fn.has("0.11") == 1 then
+            return client:supports_method("textDocument/documentSymbol")
+        else
+            return client.supports_method("textDocument/documentSymbol")
+        end
     end, clients)
 
     if #clients_filtered == 0 then
